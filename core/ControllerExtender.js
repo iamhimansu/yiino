@@ -1,8 +1,5 @@
-const BaseController = require("../controller/BaseController");
-
-const WebController = class Controller extends BaseController {
+class ControllerClass {
     constructor(application, req, res) {
-        super();
         this.application = application;
         this.req = req;
         this.res = res;
@@ -12,5 +9,3 @@ const WebController = class Controller extends BaseController {
         this.res.status(200).send(content);
     }
 }
-
-module.exports = WebController;

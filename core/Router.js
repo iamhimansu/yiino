@@ -1,5 +1,6 @@
-const {route} = require("express/lib/application");
 const path = require("path");
+const ModuleExtender = require('./ModuleExtender');
+const BaseModule = require('./BaseModule')
 
 class Router {
     /**
@@ -17,7 +18,7 @@ class Router {
         const router = this.router;
 
         // log all requests
-        router.use((req, res, next) => {
+        router.use(async (req, res, next) => {
             this.routes.referer = req.url;
 
             console.log(this.routes);
@@ -43,32 +44,30 @@ class Router {
             const path = require("path");
             const ROOT = path.resolve(__dirname, "..");
 
-            const BaseModule = require('./BaseModule')
+            const modulePath = path.join(ROOT, moduleClass.class);
 
-            const modulePath = path.join(ROOT, moduleClass.class + ".js");
             let ModuleClass = require(modulePath);
-            ModuleClass = class extends ModuleClass {
-                constructor(app) {
-                    super(app);
-                    this.base = new BaseModule(app); // optional composition
-                }
 
-                init() {
-                    // call parent module init
-                    if (super.init) super.init();
+            const Module = new ModuleExtender(ModuleClass, BaseModule, this.application).init();
 
-                    // also call base core module init
-                    if (this.base && this.base.init) this.base.init();
-                }
-            };
+            /**
+             * Get controllers directory
+             */
+            const controllersDirectory = path.join(Module.basePath, 'controllers');
 
-            const m = new ModuleClass(this.application);
-            m.init();
-            console.log(m.basePath)
-            return
-                ;
+            /**
+             * Get controller
+             */
 
-            console.log(module, controller, action);
+            const controllerPath = path.join(controllersDirectory, this.#capitalize(controller) + 'Controller.js');
+
+            const ControllerClass = require(controllerPath);
+
+            const controllerInstance = new ControllerClass(this.application, req, res);
+
+            const actionMethod = 'action' + this.#capitalize(action);
+            await controllerInstance[actionMethod]();
+
             next();
         });
 
@@ -97,6 +96,10 @@ class Router {
         }
         return {module, controller, action};
 
+    }
+
+    #capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 }
 

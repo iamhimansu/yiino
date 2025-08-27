@@ -8,10 +8,15 @@ class BaseModule {
         this.moduleVersion = '';
         this.basePath = __dirname;
         this.app = app;
+        this.base = null;
     }
 
-    init(){
+    init() {
+        console.log('In base module');
+    }
 
+    getBasePath() {
+        return this.basePath;
     }
 }
 
