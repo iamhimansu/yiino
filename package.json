@@ -1,0 +1,28 @@
+{
+  "name": "yiino",
+  "version": "1.0.0",
+  "description": "Yii2 like framework in node",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamhimansu/yiino.git"
+  },
+  "keywords": [
+    "yii2",
+    "node"
+  ],
+  "author": "Himanshu Raj Aman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamhimansu/yiino/issues"
+  },
+  "homepage": "https://github.com/iamhimansu/yiino#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
