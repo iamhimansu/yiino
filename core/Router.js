@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 const ModuleExtender = require('./ModuleExtender');
 const BaseModule = require('./BaseModule')
 
@@ -25,7 +25,11 @@ class Router {
 
             const {module, controller, action} = this.#parseRoute(req.url);
 
-            if (!module || !controller) {
+            if (!module) {
+                return res.sendFile(path.join(__dirname, "/../app/views/site", "index.html"));
+            }
+
+            if (!controller) {
                 res.writeHead(404, {"Content-Type": "application/json"});
                 return res.end(JSON.stringify({error: "Route not found"}));
             }
@@ -41,7 +45,6 @@ class Router {
                 return res.end(JSON.stringify({error: e}));
             }
 
-            const path = require("path");
             const ROOT = path.resolve(__dirname, "..");
 
             const modulePath = path.join(ROOT, moduleClass.class);
@@ -79,8 +82,8 @@ class Router {
     #parseRoute(pathname) {
 
         let module = null;
-        let controller = 'dashboard';
-        let action = "index";
+        let controller = null;
+        let action = 'index';
 
         const parts = pathname.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
 
