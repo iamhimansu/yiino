@@ -79,16 +79,16 @@ class Router {
     #parseRoute(pathname) {
 
         let module = null;
-        let controller = null;
+        let controller = 'dashboard';
         let action = "index";
 
         const parts = pathname.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
 
         if (parts.length === 1) {
-            controller = parts[0];
+            module = parts[0];
         } else if (parts.length === 2) {
-            controller = parts[0];
-            action = parts[1];
+            module = parts[0];
+            controller = parts[1];
         } else if (parts.length >= 3) {
             module = parts[0];
             controller = parts[1];

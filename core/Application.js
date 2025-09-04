@@ -1,6 +1,7 @@
 const express = require('express');
 const Router = require('./Router');
 const Autoloader = require('./AutoLoader');
+const WebController = require('./web/Controller');
 
 class Application {
     constructor(configs) {
